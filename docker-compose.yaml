@@ -1,0 +1,17 @@
+version: '3.9'
+services: 
+  dbintegration:
+    image: 'postgres:13.1-alpine'
+    container_name: dbintegration
+    environment:
+      - POSTGRES_USER=integration
+      - POSTGRES_PASSWORD=integration
+    ports:
+      - '5432:5432'
+  redis:
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    container_name: redis
+    ports:
+      - '6379:6379'

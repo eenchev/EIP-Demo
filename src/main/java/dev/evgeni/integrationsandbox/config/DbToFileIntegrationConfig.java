@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.InboundChannelAdapter;
 import org.springframework.integration.annotation.Poller;
 import org.springframework.integration.annotation.ServiceActivator;
@@ -19,7 +18,7 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import dev.evgeni.integrationsandbox.model.Item;
 
-@Configuration
+// @Configuration
 public class DbToFileIntegrationConfig {
 
     private final String SELECT_SQL_QUERY = """
@@ -59,9 +58,10 @@ public class DbToFileIntegrationConfig {
 
 
     @Bean
-    @ServiceActivator(inputChannel="newItemsReadyForFileInsertChannel")
+    @ServiceActivator(inputChannel = "newItemsReadyForFileInsertChannel")
     public MessageHandler fileWriter() {
-        FileWritingMessageHandler fileWriter = new FileWritingMessageHandler(new File("/tmp/items"));
+        FileWritingMessageHandler fileWriter =
+                new FileWritingMessageHandler(new File("/tmp/items"));
         fileWriter.setFileExistsMode(FileExistsMode.APPEND);
         fileWriter.setAppendNewLine(false);
         fileWriter.setFileNameGenerator(message -> "items_table.csv");
